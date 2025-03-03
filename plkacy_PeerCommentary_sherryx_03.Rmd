@@ -123,6 +123,8 @@ p
 
 The trendlines show a positive slope, suggesting that height/weight increases with age
 
+[***\^\^ I ALSO SAID THIS!! AWESOME JOB!!***]{.underline}
+
 ## 4.) Using histograms and Q-Q plots, check whether the quantitative variables seem to be drawn from a normal distribution. Which seem to be and which do not (hint: not all are drawn from the normal distribution)? For those that are not normal, can you determine from which common distribution they are drawn?
 
 [***\^\^CHANGED TO HEADER 2 SO IT LOOKS MORE ORGANIZED IN THE TABLE OF CONTENT***]{.underline}
