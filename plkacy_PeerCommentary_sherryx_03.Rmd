@@ -245,6 +245,8 @@ confidence_intervals
 
 [***CODING ALL THE TASKS IN ONE CHUCNK IS A BIT HARD TO FOLLOW SINCE THERES SO MUCH GOING ON FOR THIS PROBLEM. I SUGGEST BREAKING UP THE CODE CHUNCKS TO SAMPING FIRST. THEN FIGURING OUT SD. THEN GRAPHING***]{.underline}
 
+[***MAKE SURE TO ALSO ANSWER THE QUESTIONS FROM THE PROBLEM. USING YOUR ORGANIZED AND VISUALLY CLEAR GRAPH: What do these sampling distributions look like (a graph might help here)? Are they normally distributed? What about for those variables that you concluded were not originally drawn from a normal distribution?***]{.underline}
+
 ```{r}
 set.seed(42) # Set the random seed for reproducibility
 
