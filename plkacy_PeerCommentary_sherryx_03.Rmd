@@ -129,6 +129,10 @@ The trendlines show a positive slope, suggesting that height/weight increases wi
 
 [***\^\^CHANGED TO HEADER 2 SO IT LOOKS MORE ORGANIZED IN THE TABLE OF CONTENT***]{.underline}
 
+[***I LIKE HOW YOU PUT YOU HISTOGRAMS ALL TOGETHER AND THE QQPLOTS ALL TOGETHER. I DID PAR TO BEGIN WITH AND COMPARE PER SET LIKE THIS: BUT ITS COOL TO SEE HOW BOTH WAYS WORK! NICE JOB***]{.underline}
+
+normal_distribution_check \<- function(variable, name) { par(mfrow = c(1, 2)) \# Side-by-side plots histogram vs pplot comparision hist(variable, main = paste("Histogram of", name), col = "lightblue", probability = TRUE) #histogram view qqnorm(variable, main = paste("Q-Q Plot of", name)) #qqplot view qqline(variable, col = "red") #qqplot linear diagonal line }
+
 ```{r}
 #using histograms to check
 par(mfrow = c(2, 3))  # Arrange plots in a 2-row, 3-column grid
