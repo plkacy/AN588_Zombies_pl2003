@@ -199,6 +199,8 @@ Zombies killed- The data is highly skewed and does not follow a normal distribut
 
 Years of education- the data is slightly skewed, it may be approximately normal.
 
+[***\^\^I ALSO SAID THE SAME. BUT LETS DIG DEEPER AND THINK THAT IF THEY ARE NOT NORMALLY DISTRIBUTED, WHAT TYPE OF DISTRIBUTION CAN THEY BE? MAYBE POSSION DISTRIBUTION IF IT IS SKEWED TO THE LEFT?***]{.underline}
+
 ## 5.) Now use the sample() function to sample ONE subset of 30 zombie survivors (without replacement) from this population and calculate the mean and sample standard deviation for each variable. Also estimate the standard error for each variable, and construct the 95% confidence interval for each mean. Note that for the variables that are not drawn from the normal distribution, you may need to base your estimate of the CIs on slightly different code than for the normal…
 
 [***\^\^CHANGED TO HEADER 2 SO IT LOOKS MORE ORGANIZED IN THE TABLE OF CONTENT***]{.underline}
