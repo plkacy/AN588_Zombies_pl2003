@@ -8,7 +8,6 @@ output: html_document
 [***MAYBE HAVE A SET UP SECTION AT THE BEGINNING TO LOAD ALL YOUR PACKAGES?***]{.underline}
 
 ```{r}
-{r}
 #download the new package ggpubr first
 #install.packages("ggpubr") for Q-Q plots
 
@@ -24,13 +23,15 @@ library(ggpubr)
 
 ```{r}
 #zombies <- read.csv("/Users/kacylin/Desktop/zombies.csv") 
-zombie <- read.csv("/Users/sherryxie/CODE/Github/repos/Homework/Sherry's Homework 03/zombies.csv")
+zombies <- read.csv("/Users/sherryxie/CODE/Github/repos/Homework/Sherry's Homework 03/zombies.csv")
 
 ```
 
 [***REMEBER TO CHANGE ALL QUESTION TO HEADER 2 FORMAT***]{.underline}
 
 ## 1.) Calculate the population mean and standard deviation for each quantitative random variable (height, weight, age, number of zombies killed, and years of education). NOTE: You will not want to use the built in var() and sd() commands as these are for samples.
+
+GREAT JOB! I THINK IT IS REALLY CLEAN YOU DECIDE TO SPLIT UP THE FUNCTIONS FOR SD AND MEAN. I GROUPED THEM TOGETHER AND IT WAS A MESS. THIS IS DEFINITELY SOMETHING I WILL GO BACK AND CHANGE. THANK YOU!
 
 ```{r}
 colnames(zombies)  # See the actual column names
