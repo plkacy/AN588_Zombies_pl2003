@@ -1,0 +1,271 @@
+---
+title: "plkacy_PeerCommentary_sherryx_03"
+author: "Sherry Xie"
+date: "2025-03-03"
+output: html_document
+---
+
+[***MAYBE HAVE A SET UP SECTION AT THE BEGINNING TO LOAD ALL YOUR PACKAGES?***]{.underline}
+
+```{r}
+{r}
+#download the new package ggpubr first
+#install.packages("ggpubr") for Q-Q plots
+
+#loading ggplot for the figures
+library(ggplot2)
+library(dplyr)
+library(ggpubr)
+```
+
+## Open file from downloads:
+
+[***Please change this later back to your original code. I had to change it otherwise I could not access it. Thank you!***]{.underline}
+
+```{r}
+#zombies <- read.csv("/Users/kacylin/Desktop/zombies.csv") 
+zombie <- read.csv("/Users/sherryxie/CODE/Github/repos/Homework/Sherry's Homework 03/zombies.csv")
+
+```
+
+[***REMEBER TO CHANGE ALL QUESTION TO HEADER 2 FORMAT***]{.underline}
+
+## 1.) Calculate the population mean and standard deviation for each quantitative random variable (height, weight, age, number of zombies killed, and years of education). NOTE: You will not want to use the built in var() and sd() commands as these are for samples.
+
+```{r}
+colnames(zombies)  # See the actual column names
+
+numeric_vars <- c("height", "weight", "age", "zombies_killed", "years_of_education")
+# Calculate population mean
+pop_mean <- colMeans(zombies[, numeric_vars], na.rm = TRUE)
+
+# Calculate population standard deviation
+pop_sd <- sapply(zombies[, numeric_vars], function(x) sqrt(mean((x - mean(x, na.rm = TRUE))^2, na.rm = TRUE)))
+
+# Print results
+pop_mean
+pop_sd
+
+```
+
+2.)Use {ggplot} to make boxplots of each of these variables by gender.
+
+Numeric variables are height, weight, age, zombies killed, and years of education
+
+```{r}
+#plot for gender and height 
+library(ggplot2)
+p <- ggplot(data = zombies, aes(x = gender, y = height))  #Define variables
+p <- p + geom_boxplot()  #Graph them in boxplot
+p <- p + xlab("Gender") + ylab("Height (cm)")  # Rename axes
+p <- p + ggtitle("Height by Gender")  # Add title
+p  # Show plot
+
+#plot for weight by gender
+p <- ggplot(data=zombies, aes (x=gender, y=weight))
+p <- p + geom_boxplot()  #Graph them in boxplot
+p <- p + xlab("Gender") + ylab("Weight (kg)")  # Rename axes
+p <- p + ggtitle("Height by Gender")  # Add title
+p  # Show plot
+
+#plot for gender and age
+p <- ggplot(data = zombies, aes(x = gender, y = age))  #Define variables
+p <- p + geom_boxplot()  #Graph them in boxplot
+p <- p + xlab("Gender") + ylab("Age (years)")  # Rename axes
+p <- p + ggtitle("Age by Gender")  # Add title
+p  # Show plot
+
+#plot for gender and zombies killed
+p <- ggplot(data = zombies, aes(x = gender, y = zombies_killed))
+p <- p + geom_boxplot()
+p <- p + xlab("Gender") + ylab("Zombies Killed")
+p <- p + ggtitle("Zombies Killed by Gender")
+p
+
+#plotfor gender and years of education 
+p <- ggplot(data = zombies, aes(x = gender, y = years_of_education))
+p <- p + geom_boxplot()
+p <- p + xlab("Gender") + ylab("Years of Education")
+p <- p + ggtitle("Years of Education by Gender")
+p
+
+```
+
+3.) Use {ggplot} to make scatterplots of height and weight in relation to age. Do these variables seem to be related? In what way?
+
+```{r}
+#Scatterplot of height in relation to age
+library(ggplot2)
+
+p <- ggplot(data = zombies, aes(x = age, y = height))  # Define variables
+p <- p + xlab("Age (years)") + ylab("Height (cm)")  # Modify axis labels
+p <- p + geom_point()  # Make a scatterplot
+p <- p + geom_smooth(method = "lm")  # Add a trend line
+p  # Plot the object
+
+
+#Scatterplot of weight in relation to age
+p <- ggplot(data = zombies, aes(x = age, y = weight))  
+p <- p + xlab("Age (years)") + ylab("Weight (kg)")  
+p <- p + geom_point()  
+p <- p + geom_smooth(method = "lm")  
+p  
+```
+
+The trendlines show a positive slope, suggesting that height/weight increases with age
+
+4.) Using histograms and Q-Q plots, check whether the quantitative variables seem to be drawn from a normal distribution. Which seem to be and which do not (hint: not all are drawn from the normal distribution)? For those that are not normal, can you determine from which common distribution they are drawn?
+
+```{r}
+#using histograms to check
+par(mfrow = c(2, 3))  # Arrange plots in a 2-row, 3-column grid
+#log to reduce skewness
+hist(log(zombies$height), freq = FALSE, col = "white", main = "Height Distribution with Mean and Density",
+     xlab = "log(Height)", ylab = "Density")
+abline(v = mean(log(zombies$height), na.rm = TRUE), col = "blue")
+lines(density(log(zombies$height), na.rm = TRUE), col = "green")
+
+hist(log(zombies$weight), freq = FALSE, col = "white", main = "Weight Distribution with Mean and Density",
+     xlab = "log(Weight)", ylab = "Density")
+abline(v = mean(log(zombies$weight), na.rm = TRUE), col = "blue")
+lines(density(log(zombies$weight), na.rm = TRUE), col = "green")
+
+hist(log(zombies$age), freq = FALSE, col = "white", main = "Age Distribution with Mean and Density",
+     xlab = "log(Age)", ylab = "Density")
+abline(v = mean(log(zombies$age), na.rm = TRUE), col = "blue")
+lines(density(log(zombies$age), na.rm = TRUE), col = "green")
+
+hist(log(zombies$zombies_killed + 1), freq = FALSE, col = "white", main = "Zombie Kills Distribution with Mean and Density",
+     xlab = "log(Zombies Killed + 1)", ylab = "Density")
+abline(v = mean(log(zombies$zombies_killed + 1), na.rm = TRUE), col = "blue")
+lines(density(log(zombies$zombies_killed + 1), na.rm = TRUE), col = "green")
+
+hist(log(zombies$years_of_education), freq = FALSE, col = "white", main = "Years of Education Distribution with Mean and Density",
+     xlab = "log(Years of Education)", ylab = "Density")
+abline(v = mean(log(zombies$years_of_education), na.rm = TRUE), col = "blue")
+lines(density(log(zombies$years_of_education), na.rm = TRUE), col = "green")
+
+#Using qqplots to check 
+par(mfrow = c(2, 3))  # Set up multiple panels for plots
+#extracting the heights column from zombies data frame and main is the title.
+qqnorm(zombies$height, main = "Q-Q Plot: Height") 
+qqline(zombies$height, col = "red") 
+
+#extract weight
+qqnorm(zombies$weight, main = "Q-Q Plot: Weight")
+qqline(zombies$weight, col = "red")
+
+#extract age 
+qqnorm(zombies$age, main = "Q-Q Plot: Age")
+qqline(zombies$age, col = "red")
+
+#extract zombies killed
+qqnorm(zombies$zombies_killed, main = "Q-Q Plot: Zombies Killed")
+qqline(zombies$zombies_killed, col = "red")
+
+#extracts years of education 
+qqnorm(zombies$years_of_education, main = "Q-Q Plot: Years of Education")
+qqline(zombies$years_of_education, col = "red")
+
+par(mfrow = c(1, 1))  # Reset plotting layout for future plots
+```
+
+Interpreting the Variables
+
+Height- the histogram shows a symmetric bell shape and the ggplot with the points closely align with the red diagonal line indicates the data is normal.
+
+Weight- the histogram shows a symmetric and bell shape, the ggplot points align closely with the red diagonal, indicated that the data is normal
+
+Age- the histogram is slightly skewed to the left side and most ggplot points align with the data, indicating it is not a normal distribution.
+
+Zombies killed- The data is highly skewed and does not follow a normal distribution.
+
+Years of education- the data is slightly skewed, it may be approximately normal.
+
+5.) Now use the sample() function to sample ONE subset of 30 zombie survivors (without replacement) from this population and calculate the mean and sample standard deviation for each variable. Also estimate the standard error for each variable, and construct the 95% confidence interval for each mean. Note that for the variables that are not drawn from the normal distribution, you may need to base your estimate of the CIs on slightly different code than for the normal…
+
+```{r}
+set.seed(42) #reproducibility
+sample_30 <- zombies[sample(nrow(zombies), 30, replace = FALSE),]  # Take a random sample of 30 zombies without replacement
+
+numeric_vars <- c("height", "weight", "age", "zombies_killed", "years_of_education") #vector to extract from sample
+
+# Compute means for each selected columns
+sample_means <- colMeans(sample_30[, numeric_vars])
+
+# Compute sample standard deviations
+sample_sds <- apply(sample_30[, numeric_vars], 2, sd)
+
+# Print results
+sample_means
+sample_sds
+
+sample_se <- sample_sds / sqrt(30)  # Standard error formula: SD / sqrt(n)
+
+# Print SE
+sample_se
+
+# Compute 95% confidence interval: mean ± 1.96 * SE
+ci_lower <- sample_means - 1.96 * sample_se
+ci_upper <- sample_means + 1.96 * sample_se
+
+# Combine results into a table
+confidence_intervals <- data.frame(Variable = numeric_vars, Mean = sample_means, Lower_95_CI = ci_lower, Upper_95_CI = ci_upper)
+
+# Print the confidence intervals
+confidence_intervals
+```
+
+6.) Now draw 99 more random samples of 30 zombie apocalypse survivors, and calculate the mean for each variable for each of these samples. Together with the first sample you drew, you now have a set of 100 means for each variable (each based on 30 observations), which constitutes a sampling distribution for each variable. What are the means and standard deviations of this distribution of means for each variable? How do the standard deviations of means compare to the standard errors estimated in [5]? What do these sampling distributions look like (a graph might help here)? Are they normally distributed? What about for those variables that you concluded were not originally drawn from a normal distribution?
+
+```{r}
+set.seed(42) # Set the random seed for reproducibility
+
+# Defining the numeric variables 
+numeric_vars <- c("height", "weight", "age", "zombies_killed", "years_of_education")
+
+# Create an empty list to store the sample means
+sample_means_list <- list()
+
+# Loop to take 99 random samples of 30 zombie survivors
+for (i in 1:99) { sample_i <- zombies[sample(nrow(zombies), 30, replace = FALSE),]  # Sample from zombies dataset without replacement
+sample_means_list[[i]] <- colMeans(sample_i[, numeric_vars], na.rm = TRUE)} #holds the means of samples, sample_i is the sample of 30 rows from zombie data set
+#colmeans calulates the mean of columns from numeric_vars, ignoring missing values 
+
+# Convert the list to a data 
+sample_means_df <- as.data.frame(matrix(unlist(sample_means_list), nrow = length(sample_means_list), byrow = TRUE)) #unlist- convert to single flat vector, matrix- converts it to matrix form
+colnames(sample_means_df) <- numeric_vars  # Assign column names based on numeric_vars
+
+# Add the first sample to the data frame
+sample_means_df <- rbind(sample_means_df, sample_means)  # Add the first sample
+
+# Calculate the mean of each variable's sampling distribution
+sampling_dist_means <- colMeans(sample_means_df)
+
+# Calculate the standard deviation of each variable's sampling distribution
+sampling_dist_sds <- apply(sample_means_df, 2, sd)
+
+# Print the means and standard deviations
+sampling_dist_means
+sampling_dist_sds
+
+# Comparison with the estimated standard errors
+comparison <- data.frame( Variable = numeric_vars, Estimated_SE = sample_se, Sampling_SD = sampling_dist_sds)
+
+# Print the comparison table
+comparison
+
+# Create histograms for each variable
+par(mfrow = c(2, 3))  # Arrange multiple plots in a 2-row, 3-column grid
+
+for (var in colnames(sample_means_df)) {hist(sample_means_df[[var]], main = paste("Histogram of", var, "Sample Means"), xlab = var)} #loop through each column and create a histogram for each variable
+
+# Create Q-Q plots for each variable
+par(mfrow = c(2, 3))  # Arrange multiple plots
+
+for (var in numeric_vars) { qqnorm(sample_means_df[[var]], main = paste("Q-Q Plot of", var, "Sample Means")) #selects values of the variable from sample_means_df to be plotted.
+ qqline(sample_means_df[[var]], col = "red")} #add the reference line to compare
+
+```
+
+Challenges: I'm not sure if I completed 5 and 6 correctly. I'm also not too familiar with loops for question 6 when combining the data. For number 4, there may be an easier way of doing it without listing each plot at a time. (I just referenced one of the modules from class)
