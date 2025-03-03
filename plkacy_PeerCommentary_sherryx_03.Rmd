@@ -49,7 +49,9 @@ pop_sd
 
 ```
 
-2.)Use {ggplot} to make boxplots of each of these variables by gender.
+## 2.)Use {ggplot} to make boxplots of each of these variables by gender.
+
+[***\^\^CHANGED TO HEADER 2 SO IT LOOKS MORE ORGANIZED IN THE TABLE OF CONTENT***]{.underline}
 
 Numeric variables are height, weight, age, zombies killed, and years of education
 
@@ -92,7 +94,9 @@ p
 
 ```
 
-3.) Use {ggplot} to make scatterplots of height and weight in relation to age. Do these variables seem to be related? In what way?
+## 3.) Use {ggplot} to make scatterplots of height and weight in relation to age. Do these variables seem to be related? In what way?
+
+[***\^\^CHANGED TO HEADER 2 SO IT LOOKS MORE ORGANIZED IN THE TABLE OF CONTENT***]{.underline}
 
 ```{r}
 #Scatterplot of height in relation to age
@@ -115,7 +119,9 @@ p
 
 The trendlines show a positive slope, suggesting that height/weight increases with age
 
-4.) Using histograms and Q-Q plots, check whether the quantitative variables seem to be drawn from a normal distribution. Which seem to be and which do not (hint: not all are drawn from the normal distribution)? For those that are not normal, can you determine from which common distribution they are drawn?
+## 4.) Using histograms and Q-Q plots, check whether the quantitative variables seem to be drawn from a normal distribution. Which seem to be and which do not (hint: not all are drawn from the normal distribution)? For those that are not normal, can you determine from which common distribution they are drawn?
+
+[***\^\^CHANGED TO HEADER 2 SO IT LOOKS MORE ORGANIZED IN THE TABLE OF CONTENT***]{.underline}
 
 ```{r}
 #using histograms to check
@@ -183,7 +189,9 @@ Zombies killed- The data is highly skewed and does not follow a normal distribut
 
 Years of education- the data is slightly skewed, it may be approximately normal.
 
-5.) Now use the sample() function to sample ONE subset of 30 zombie survivors (without replacement) from this population and calculate the mean and sample standard deviation for each variable. Also estimate the standard error for each variable, and construct the 95% confidence interval for each mean. Note that for the variables that are not drawn from the normal distribution, you may need to base your estimate of the CIs on slightly different code than for the normal…
+## 5.) Now use the sample() function to sample ONE subset of 30 zombie survivors (without replacement) from this population and calculate the mean and sample standard deviation for each variable. Also estimate the standard error for each variable, and construct the 95% confidence interval for each mean. Note that for the variables that are not drawn from the normal distribution, you may need to base your estimate of the CIs on slightly different code than for the normal…
+
+[***\^\^CHANGED TO HEADER 2 SO IT LOOKS MORE ORGANIZED IN THE TABLE OF CONTENT***]{.underline}
 
 ```{r}
 set.seed(42) #reproducibility
@@ -217,7 +225,9 @@ confidence_intervals <- data.frame(Variable = numeric_vars, Mean = sample_means,
 confidence_intervals
 ```
 
-6.) Now draw 99 more random samples of 30 zombie apocalypse survivors, and calculate the mean for each variable for each of these samples. Together with the first sample you drew, you now have a set of 100 means for each variable (each based on 30 observations), which constitutes a sampling distribution for each variable. What are the means and standard deviations of this distribution of means for each variable? How do the standard deviations of means compare to the standard errors estimated in [5]? What do these sampling distributions look like (a graph might help here)? Are they normally distributed? What about for those variables that you concluded were not originally drawn from a normal distribution?
+## 6.) Now draw 99 more random samples of 30 zombie apocalypse survivors, and calculate the mean for each variable for each of these samples. Together with the first sample you drew, you now have a set of 100 means for each variable (each based on 30 observations), which constitutes a sampling distribution for each variable. What are the means and standard deviations of this distribution of means for each variable? How do the standard deviations of means compare to the standard errors estimated in [5]? What do these sampling distributions look like (a graph might help here)? Are they normally distributed? What about for those variables that you concluded were not originally drawn from a normal distribution?
+
+[***\^\^CHANGED TO HEADER 2 SO IT LOOKS MORE ORGANIZED IN THE TABLE OF CONTENT***]{.underline}
 
 ```{r}
 set.seed(42) # Set the random seed for reproducibility
