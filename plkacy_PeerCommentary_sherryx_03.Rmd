@@ -55,6 +55,10 @@ pop_sd
 
 Numeric variables are height, weight, age, zombies killed, and years of education
 
+[***I LIKE HOW YOU WROTE OUT EACH PART OF THE GGPLOT FUNCTION. I GROUPED MINE TOGETHER LIKE THIS***]{.underline}
+
+ggplot(zombie, aes(x = gender, y = height)) + geom_boxplot() + theme_minimal()
+
 ```{r}
 #plot for gender and height 
 library(ggplot2)
