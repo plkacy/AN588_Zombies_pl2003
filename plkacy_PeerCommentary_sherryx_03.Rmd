@@ -205,6 +205,8 @@ Years of education- the data is slightly skewed, it may be approximately normal.
 
 [***\^\^CHANGED TO HEADER 2 SO IT LOOKS MORE ORGANIZED IN THE TABLE OF CONTENT***]{.underline}
 
+[***THIS LOOKS SUPER CLEAN AND EASY TO FOLLOW. MY ONLY SUGGESTION IS CAN YOU EXPLAIN IN YOUR COMMENT IS THE LOWER AND UPPER BOUNDS OF THE CI. CAN YOU EXPLAIN FOR EXAMPLE WHY YOU USED 1.96? OVERALL IT LOOKS AWESOME!!!***]{.underline}
+
 ```{r}
 set.seed(42) #reproducibility
 sample_30 <- zombies[sample(nrow(zombies), 30, replace = FALSE),]  # Take a random sample of 30 zombies without replacement
