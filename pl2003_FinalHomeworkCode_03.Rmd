@@ -1,0 +1,285 @@
+---
+title: "pL2003_FinalHomeworkCode_03"
+output:
+  rmdformats::readthedown:
+    theme: "default"  
+  html_document: 
+    toc: true #table of contents
+    toc_depth: 2 #depth of headers 
+date: "2025-02-28"
+---
+
+```{r} 
+# Load required packages
+library(ggplot2)
+library(dplyr)
+library(rmdformats)
+```
+
+
+![Zombie Image](https://t3.ftcdn.net/jpg/06/20/85/56/360_F_620855617_zPHmvFFvXiAYsrcXsIZ4GhYzo8KgZANP.jpg)
+
+
+Table of Contents 
+
+1. [Calculate the population mean and standard deviation](#calculate-the-population-mean-and-standard-deviation)
+2. [Boxplots of quantitative variables by gender](#boxplots-of-quantitative-variables-by-gender)
+3. [Scatterplots of height and weight vs. age](#scatterplots-of-height-and-weight-vs-age)
+4. [Normality check with histograms and Q-Q plots](#normality-check-with-histograms-and-q-q-plots)
+5. [Sample 30 survivors and calculate confidence intervals](#sample-30-survivors-and-calculate-confidence-intervals)
+6. [Sampling distribution and comparison with standard errors](#sampling-distribution-and-comparison-with-standard-errors)
+
+
+Open file from downloads: 
+```{r}
+zombies <- read.csv("/Users/kacylin/Desktop/zombies.csv") 
+```
+
+## Calculate the population mean and standard deviation
+
+```{r}
+colnames(zombies)  # See the actual column names
+
+numeric_vars <- c("height", "weight", "age", "zombies_killed", "years_of_education")
+# Calculate population mean
+pop_mean <- colMeans(zombies[, numeric_vars], na.rm = TRUE)
+
+# Calculate population standard deviation
+pop_sd <- sapply(zombies[, numeric_vars], function(x) sqrt(mean((x - mean(x, na.rm = TRUE))^2, na.rm = TRUE)))
+
+# Print results
+pop_mean
+pop_sd
+```
+
+## Boxplots of quantitative variables by gender
+
+```{r}
+#plot for gender and height 
+library(ggplot2)
+p <- ggplot(data = zombies, aes(x = gender, y = height))  #Define variables
+p <- p + geom_boxplot()  #Graph them in boxplot
+p <- p + xlab("Gender") + ylab("Height (cm)")  # Rename axes
+p <- p + ggtitle("Height by Gender")  # Add title
+p  # Show plot
+
+#plot for weight by gender
+p <- ggplot(data=zombies, aes (x=gender, y=weight))
+p <- p + geom_boxplot()  #Graph them in boxplot
+p <- p + xlab("Gender") + ylab("Weight (kg)")  # Rename axes
+p <- p + ggtitle("Height by Gender")  # Add title
+p  # Show plot
+
+#plot for gender and age
+p <- ggplot(data = zombies, aes(x = gender, y = age))  #Define variables
+p <- p + geom_boxplot()  #Graph them in boxplot
+p <- p + xlab("Gender") + ylab("Age (years)")  # Rename axes
+p <- p + ggtitle("Age by Gender")  # Add title
+p  # Show plot
+
+#plot for gender and zombies killed
+p <- ggplot(data = zombies, aes(x = gender, y = zombies_killed))
+p <- p + geom_boxplot()
+p <- p + xlab("Gender") + ylab("Zombies Killed")
+p <- p + ggtitle("Zombies Killed by Gender")
+p
+
+#plotfor gender and years of education 
+p <- ggplot(data = zombies, aes(x = gender, y = years_of_education))
+p <- p + geom_boxplot()
+p <- p + xlab("Gender") + ylab("Years of Education")
+p <- p + ggtitle("Years of Education by Gender")
+p
+
+```
+#add colors by filling (boxplots)
+#ggloop to loop ggplot codes to make it all at once 
+
+## Scatterplots of height and weight vs. age
+
+```{r}
+#Scatterplot of height in relation to age
+library(ggplot2)
+
+p <- ggplot(data = zombies, aes(x = age, y = height))  # Define variables
+p <- p + xlab("Age (years)") + ylab("Height (cm)")  # Modify axis labels
+p <- p + geom_point()  # Make a scatterplot
+p <- p + geom_smooth(method = "lm")  # Add a trend line
+p  # Plot the object
+
+
+#Scatterplot of weight in relation to age
+p <- ggplot(data = zombies, aes(x = age, y = weight))  
+p <- p + xlab("Age (years)") + ylab("Weight (kg)")  
+p <- p + geom_point()  
+p <- p + geom_smooth(method = "lm")  
+p  
+```
+Both of the trend lines show a positive slope, suggesting that height/weight increases with age. The difference is that weight by age in survivors is less strongly correlated because the plots are more spread out, but it still has a positive correlation. 
+
+## Normality check with histograms and Q-Q plots
+
+```{r}
+#using histograms to check
+par(mfrow = c(2, 3))  # Arrange plots in a 2-row, 3-column grid
+#log to reduce skewness
+hist(log(zombies$height), freq = FALSE, col = "white", main = "Height Distribution with Mean and Density",
+     xlab = "log(Height)", ylab = "Density")
+abline(v = mean(log(zombies$height), na.rm = TRUE), col = "blue")
+lines(density(log(zombies$height), na.rm = TRUE), col = "green")
+
+hist(log(zombies$weight), freq = FALSE, col = "white", main = "Weight Distribution with Mean and Density",
+     xlab = "log(Weight)", ylab = "Density")
+abline(v = mean(log(zombies$weight), na.rm = TRUE), col = "blue")
+lines(density(log(zombies$weight), na.rm = TRUE), col = "green")
+
+hist(log(zombies$age), freq = FALSE, col = "white", main = "Age Distribution with Mean and Density",
+     xlab = "log(Age)", ylab = "Density")
+abline(v = mean(log(zombies$age), na.rm = TRUE), col = "blue")
+lines(density(log(zombies$age), na.rm = TRUE), col = "green")
+
+hist(log(zombies$zombies_killed + 1), freq = FALSE, col = "white", main = "Zombie Kills Distribution with Mean and Density",
+     xlab = "log(Zombies Killed + 1)", ylab = "Density")
+abline(v = mean(log(zombies$zombies_killed + 1), na.rm = TRUE), col = "blue")
+lines(density(log(zombies$zombies_killed + 1), na.rm = TRUE), col = "green")
+
+hist(log(zombies$years_of_education), freq = FALSE, col = "white", main = "Years of Education Distribution with Mean and Density",
+     xlab = "log(Years of Education)", ylab = "Density")
+abline(v = mean(log(zombies$years_of_education), na.rm = TRUE), col = "blue")
+lines(density(log(zombies$years_of_education), na.rm = TRUE), col = "green")
+
+#Using qqplots to check 
+par(mfrow = c(2, 3))  # Set up multiple panels for plots
+#extracting the heights column from zombies data frame and main is the title.
+qqnorm(zombies$height, main = "Q-Q Plot: Height") 
+qqline(zombies$height, col = "red") 
+
+#extract weight
+qqnorm(zombies$weight, main = "Q-Q Plot: Weight")
+qqline(zombies$weight, col = "red")
+
+#extract age 
+qqnorm(zombies$age, main = "Q-Q Plot: Age")
+qqline(zombies$age, col = "red")
+
+#extract zombies killed
+qqnorm(zombies$zombies_killed, main = "Q-Q Plot: Zombies Killed")
+qqline(zombies$zombies_killed, col = "red")
+
+#extracts years of education 
+qqnorm(zombies$years_of_education, main = "Q-Q Plot: Years of Education")
+qqline(zombies$years_of_education, col = "red")
+
+par(mfrow = c(1, 1))  # Reset plotting layout for future plots
+```
+
+
+
+Interpreting the Variables
+
+Height and weight- Both variables display a symmetric bell-shaped histogram and their Q-Q plots align closely with the red diagonal line, indicating a normal distribution.
+
+Age- The histogram shows slight left skewness, and the Q-Q plot suggests deviations from normality, indicating it may follow a skewed distribution rather than a normal one.
+
+Zombies killed- The distribution is highly skewed, suggesting it does not follow a normal distribution. Given that this variable represents count data, it may follow a Poisson or negative binomial distribution.
+
+Years of education- The distribution appears slightly skewed but may still be approximately normal. Further tests, such as the Shapiro-Wilk test, could better confirm normality.
+
+
+## Sample 30 survivors and calculate confidence intervals
+
+```{r}
+set.seed(42) #reproducibility
+sample_30 <- zombies[sample(nrow(zombies), 30, replace = FALSE),]  # Take a random sample of 30 zombies without replacement
+
+numeric_vars <- c("height", "weight", "age", "zombies_killed", "years_of_education") #vector to extract from sample
+
+# Compute means for each selected columns
+sample_means <- colMeans(sample_30[, numeric_vars])
+
+# Compute sample standard deviations
+sample_sds <- apply(sample_30[, numeric_vars], 2, sd)
+
+# Print results
+sample_means
+sample_sds
+
+sample_se <- sample_sds / sqrt(30)  # Standard error formula: SD / sqrt(n)
+
+# Print SE
+sample_se
+
+# Compute 95% confidence interval: mean ± 1.96 * SE
+ci_lower <- sample_means - 1.96 * sample_se
+ci_upper <- sample_means + 1.96 * sample_se
+
+# Combine results into a table
+confidence_intervals <- data.frame(Variable = numeric_vars, Mean = sample_means, Lower_95_CI = ci_lower, Upper_95_CI = ci_upper)
+
+# Print the confidence intervals
+confidence_intervals
+``` 
+The 95% confidence interval formula: mean +/- 1.96 * SE
+1.96 is the critical value for a normal distribution at a 95% confidence level. If we took more samples, 95% of them would contain the true poplation mean within the range. 
+
+## Sampling distribution and comparison with standard errors
+
+```{r}
+set.seed(42) # Set the random seed for reproducibility
+
+# Defining the numeric variables 
+numeric_vars <- c("height", "weight", "age", "zombies_killed", "years_of_education")
+
+# Create an empty list to store the sample means
+sample_means_list <- list()
+
+# Loop to take 99 random samples of 30 zombie survivors
+for (i in 1:99) { sample_i <- zombies[sample(nrow(zombies), 30, replace = FALSE),]  # Sample from zombies dataset without replacement
+sample_means_list[[i]] <- colMeans(sample_i[, numeric_vars], na.rm = TRUE)} #holds the means of samples, sample_i is the sample of 30 rows from zombie data set
+#colmeans calulates the mean of columns from numeric_vars, ignoring missing values 
+
+# Convert the list to a data 
+sample_means_df <- as.data.frame(matrix(unlist(sample_means_list), nrow = length(sample_means_list), byrow = TRUE)) #unlist- convert to single flat vector, matrix- converts it to matrix form
+colnames(sample_means_df) <- numeric_vars  # Assign column names based on numeric_vars
+
+# Add the first sample to the data frame
+sample_means_df <- rbind(sample_means_df, sample_means)  # Add the first sample
+
+# Calculate the mean of each variable's sampling distribution
+sampling_dist_means <- colMeans(sample_means_df)
+
+# Calculate the standard deviation of each variable's sampling distribution
+sampling_dist_sds <- apply(sample_means_df, 2, sd)
+
+# Print the means and standard deviations
+sampling_dist_means
+sampling_dist_sds
+
+# Comparison with the estimated standard errors
+comparison <- data.frame( Variable = numeric_vars, Estimated_SE = sample_se, Sampling_SD = sampling_dist_sds)
+
+# Print the comparison table
+comparison
+
+# Create histograms for each variable
+par(mfrow = c(2, 3))  # Arrange multiple plots in a 2-row, 3-column grid
+
+for (var in colnames(sample_means_df)) {hist(sample_means_df[[var]], main = paste("Histogram of", var, "Sample Means"), xlab = var)} #loop through each column and create a histogram for each variable
+
+# Create Q-Q plots for each variable
+par(mfrow = c(2, 3))  # Arrange multiple plots
+
+for (var in numeric_vars) { qqnorm(sample_means_df[[var]], main = paste("Q-Q Plot of", var, "Sample Means")) #selects values of the variable from sample_means_df to be plotted.
+ qqline(sample_means_df[[var]], col = "red")} #add the reference line to compare
+
+```
+
+Height & Weight: The histograms of sample means are approximately normal, consistent with the Central Limit Theorem. Their Q-Q plots also align well with the red diagonal line, further confirming normality.
+
+Age: Despite the original distribution being skewed, the sampling distribution of means appears more symmetric, supporting the idea that sample means are normally distributed.
+
+Zombies Killed: The original data was highly skewed, and while the sampling distribution is less skewed, it still deviates from normality, suggesting it may follow a different underlying distribution, possibly Poisson.
+
+Years of Education: The sample mean distribution is closer to normal compared to the original data, though slight skewness remains. 
+
+These results illustrate how the Central Limit Theorem can help normalize sampling distributions, even when the original variables are not normally distributed.
